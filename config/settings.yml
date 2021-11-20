@@ -2,7 +2,6 @@ aws:
   credential:
     access_key_id: minio
     secret_access_key: minio123
-  endpoint: http://10.0.0.3:9000
   s3:
     bucket: test.bucket
     region: us-west-2

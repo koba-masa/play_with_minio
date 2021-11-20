@@ -20,7 +20,7 @@ RSpec.describe ::Main do
           ),
           region: Settings.aws.s3.region,
           force_path_style: true,
-          endpoint: Settings.aws.endpoint
+          endpoint: ENV['AWS_ENDPOINT']
         }
       )
     end
@@ -70,7 +70,7 @@ RSpec.describe ::Main do
 
     it 'endpointを設定する' do
       expect(options).to include(:endpoint)
-      expect(options[:endpoint]).to eq Settings.aws.endpoint
+      expect(options[:endpoint]).to eq ENV['AWS_ENDPOINT']
     end
   end
 

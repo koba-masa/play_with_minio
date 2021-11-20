@@ -1,11 +1,8 @@
 class Base
   def initialize
-    #p __FILE__
-    ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __FILE__)
-    #p ENV['BUNDLE_GEMFILE']
-    require 'bundler' if File.exist?(ENV['BUNDLE_GEMFILE'])
+    ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+    require 'bundler/setup'
     Bundler.require(*[:default, :development])
-    #p File.expand_path('../../config/settings.yml', __FILE__)
     Config.load_and_set_settings(File.expand_path('../../config/settings.yml', __FILE__))
   end
 end
@@ -45,3 +42,5 @@ class Main < Base
     }
   end
 end
+
+Main.new.upload

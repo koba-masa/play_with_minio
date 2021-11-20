@@ -1,0 +1,46 @@
+version: '3'
+
+networks:
+  app_net:
+    name: play_with_minio_net
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker_files/Dockerfile
+    volumes:
+      - app_bundle:/usr/local/bundle
+      - .:/app_root
+    networks:
+      app_net:
+        ipv4_address: 10.0.0.2
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - 9001:9001
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+    entrypoint: sh
+    command: -c "
+      mkdir -p /data/.minio.sys/buckets;
+      cp -r /policies/* /data/.minio.sys/;
+      mkdir -p /data/test.bucket;
+      minio server /data --console-address ':9001';"
+    volumes:
+      - minio:/data
+      - ./docker_files/minio/policies:/policies
+    networks:
+      app_net:
+        ipv4_address: 10.0.0.3
+
+volumes:
+  app_bundle:
+    external: false
+  minio:
+    external: false

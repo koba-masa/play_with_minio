@@ -41,7 +41,7 @@ class Main < Base
       ),
       region: Settings.aws.s3.region,
       force_path_style: true,
-      endpoint: Settings.aws.endpoint
+      endpoint: ENV['AWS_ENDPOINT']
     }
   end
 end

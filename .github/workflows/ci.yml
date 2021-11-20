@@ -5,6 +5,13 @@ on: [push]
 jobs:
   ci:
     runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: minio123
+      AWS_EC2_METADATA_DISABLED: true # これが必要な理由が理解できない
+      AWS_ENDPOINT: http://localhost:9000
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -14,6 +21,16 @@ jobs:
         with:
           ruby-version: 3.0.2
           bundler-cache: true
+
+      - name: Setup MinIO
+        run: |
+          docker run -d -p 9000:9000 --name minio \
+                     -e "MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}" \
+                     -e "MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}" \
+                     -v /tmp/data:/data \
+                     minio/minio server /data
+          aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://test.bucket
+          docker cp ./docker_files/minio/policies minio:/data/.minio.sys/.
 
       - name: Run RSpec
         run: bundle exec rspec

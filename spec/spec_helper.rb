@@ -104,6 +104,7 @@ end
 # https://qiita.com/kotaroito/items/481702c25d96d53408f3
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __FILE__)
 require 'bundler' if File.exist?(ENV['BUNDLE_GEMFILE'])
+#require 'bundler/setup'
 
 Bundler.require(*[:default, :test])
 

@@ -37,8 +37,8 @@ RSpec.describe ::Main do
   end
 
   describe 'bucket_name' do
-    it 'バケット名(test.bucket)を返却する' do
-      expect(described_instance.bucket_name).to eq 'test.bucket'
+    it 'バケット名(sample.bucket)を返却する' do
+      expect(described_instance.bucket_name).to eq 'sample.bucket'
     end
   end
 
@@ -70,7 +70,7 @@ RSpec.describe ::Main do
 
     it 'endpointを設定する' do
       expect(options).to include(:endpoint)
-      expect(options[:endpoint]).to eq ENV['AWS_ENDPOINT']
+      expect(options[:endpoint]).to eq Settings.aws.s3.endpoint
     end
   end
 

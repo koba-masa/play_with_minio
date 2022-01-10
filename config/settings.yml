@@ -1,9 +1,14 @@
 aws:
   credential:
-    access_key_id: minio
-    secret_access_key: minio123
+    access_key_id: sample_user
+    secret_access_key: sample_user123
   s3:
-    bucket: test.bucket
+    bucket: sample.bucket
     region: us-west-2
+    endpoint: <%= ENV['AWS_ENDPOINT'] %>
+
+
+
+## TODO: そのうち移動
 main:
   upload_object_key: 'file/test.txt'

@@ -24,19 +24,21 @@ services:
   minio:
     image: minio/minio:latest
     ports:
+      - 9000:9000
       - 9001:9001
     environment:
       - MINIO_ROOT_USER=minio
       - MINIO_ROOT_PASSWORD=minio123
     volumes:
-      - minio:/data
-      - ./docker_files/minio/policies:/policies
+      #- minio:/data
+      - ./docker_files/minio:/tmp/minio
     entrypoint: sh
     command: -c "
-      mkdir -p /data/.minio.sys/buckets;
-      cp -r /policies/* /data/.minio.sys/;
-      mkdir -p /data/test.bucket;
-      minio server /data --console-address ':9001';"
+      mkdir -p /data/.minio.sys/;
+      cp -r /tmp/minio/config /data/.minio.sys/.;
+      cp -r /tmp/minio/data/* /data/.;
+      mkdir /data/test.bucket;
+      minio server /data --address ':9000' --console-address ':9001';"
 
     networks:
       app_net:

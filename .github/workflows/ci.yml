@@ -24,13 +24,15 @@ jobs:
 
       - name: Setup MinIO
         run: |
+          mkdir -p /tmp/data/.minio.sys
+          cp -rp ./docker_files/minio/data/* /tmp/data/.
+          cp -rp ./docker_files/minio/config /tmp/data/.minio.sys/.
           docker run -d -p 9000:9000 --name minio \
                      -e "MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}" \
                      -e "MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}" \
                      -v /tmp/data:/data \
                      minio/minio server /data
-          aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://test.bucket
-          docker cp ./docker_files/minio/policies minio:/data/.minio.sys/.
+#          aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://test.bucket
 
       - name: Run RSpec
         run: bundle exec rspec

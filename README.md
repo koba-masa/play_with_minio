@@ -50,6 +50,7 @@ MinIOを遊び尽くすリポジトリ
 |  |  |  |  | /users |  |  | Userに関連する設定を格納 |
 |  |  |  |  |  | /<アクセスキーID> |  |  |
 |  |  |  |  |  |  | /identity.json |  |
+|  | /<バケット名> |  |  |  |  |  | バケット用のディレクトリ |
 
 ## 実行手順
 1. Docker環境の構築
@@ -62,7 +63,7 @@ MinIOを遊び尽くすリポジトリ
    ```
 1. アプリケーションの実行
    ```
-   $ docker-compose run app bundle exec ruby <実行ファイル>
+   $ docker-compose run --rm app bundle exec ruby <実行ファイル>
    ```
 
 ### MinIO Webコンソール

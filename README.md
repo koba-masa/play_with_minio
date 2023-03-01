@@ -61,10 +61,6 @@ MinIOを遊び尽くすリポジトリ
    ```
    $ docker-compose up -d
    ```
-1. アプリケーションの実行
-   ```
-   $ docker-compose run --rm app bundle exec ruby <実行ファイル>
-   ```
 
 ### MinIO Webコンソール
 - http://localhost:9001

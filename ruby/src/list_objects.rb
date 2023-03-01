@@ -1,48 +1,20 @@
-require 'config'
-require 'aws-sdk-s3'
+require './src/base'
+require './src/models/s3/client'
 
-class ListObject
-  DEFAULT_CONFIG_FILE = 'config/settings.yml'
-
-  def initialize(config_file)
-    if config_file.nil? || config_file.empty?
-      config_file = DEFAULT_CONFIG_FILE
-   end
-
-   file_path = File.expand_path(config_file, Dir.pwd)
-   unless File.exist?(file_path) || File.file?(file_path)
-    raise StandardError("File is not found. : #{file_path}")
-   end
-
-    Config.load_and_set_settings(file_path)
-  end
-
+class ListObjects < Base
   def execute
-    output(list)
-    output(list('sample/'))
-    output(list('sample'))
-    output(list('/sample/'))
-    output(list('/sample'))
+    [
+      '',
+      'sample/',
+      'sample',
+      '/sample/',
+      '/sample',
+    ].each do |prefix|
+      output(list_objects_v2(prefix))
+    end
   end
 
-  def client
-    @client ||= Aws::S3::Client.new(client_options)
-  end
-
-  def client_options
-    options = {
-      credentials: Aws::Credentials.new(
-        Settings.aws.credential.access_key_id,
-        Settings.aws.credential.secret_access_key
-      ),
-      region: Settings.aws.s3.region,
-    }
-    options = options.merge({force_path_style: true, endpoint: Settings.aws.s3.endpoint}) \
-        unless Settings.aws.s3.endpoint.nil? || Settings.aws.s3.endpoint.empty?
-    options
-  end
-
-  def list(prefix='')
+  def list_objects_v2(prefix)
     client.list_objects_v2(
       {
         bucket: Settings.aws.s3.bucket,
@@ -63,5 +35,7 @@ class ListObject
   end
 end
 
-lo = ListObject.new(ARGV[0])
-lo.execute
+if __FILE__ == $0
+  environment = ARGV.size.zero? ? 'test' : ARGV[0]
+  ListObjects.new(environment).execute
+end

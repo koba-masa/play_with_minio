@@ -102,10 +102,8 @@ end
 # https://arfyasu.hatenablog.com/entry/2016/06/13/201736
 
 # https://qiita.com/kotaroito/items/481702c25d96d53408f3
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __FILE__)
-require 'bundler' if File.exist?(ENV['BUNDLE_GEMFILE'])
-#require 'bundler/setup'
+require 'bundler/setup'
 
 Bundler.require(*[:default, :test])
 
-Config.load_and_set_settings(File.expand_path('../config/settings.yml', __FILE__))
+Config.load_and_set_settings(File.expand_path("../config/test.yml", __dir__))

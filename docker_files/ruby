@@ -8,6 +8,3 @@ RUN apt-get update -qq && \
 RUN gem install bundler solargraph ruby-debug-ide
 
 WORKDIR /app_root
-
-COPY . .
-RUN bundle install

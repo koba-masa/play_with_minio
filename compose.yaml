@@ -7,7 +7,7 @@ services:
       AWS_ENDPOINT: http://minio:9000
     volumes:
       - app_bundle:/usr/local/bundle
-      - .:/app_root
+      - ./ruby:/app_root
 
   minio:
     image: minio/minio:latest

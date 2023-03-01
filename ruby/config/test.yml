@@ -1,0 +1,8 @@
+aws:
+  credential:
+    access_key_id: minio
+    secret_access_key: minio123
+  s3:
+    bucket: sample.bucket
+    region: ap-northeast-1
+    endpoint: <%= ENV['AWS_ENDPOINT'] %>

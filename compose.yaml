@@ -1,25 +1,13 @@
-version: '3'
-
-networks:
-  app_net:
-    name: play_with_minio_net
-    ipam:
-      config:
-        - subnet: 10.0.0.0/24
-
 services:
   app:
     build:
       context: .
-      dockerfile: ./docker_files/Dockerfile
+      dockerfile: ./docker_files/ruby
     environment:
-      AWS_ENDPOINT: http://10.0.0.3:9000
+      AWS_ENDPOINT: http://minio:9000
     volumes:
       - app_bundle:/usr/local/bundle
       - .:/app_root
-    networks:
-      app_net:
-        ipv4_address: 10.0.0.2
 
   minio:
     image: minio/minio:latest
@@ -30,7 +18,6 @@ services:
       - MINIO_ROOT_USER=minio
       - MINIO_ROOT_PASSWORD=minio123
     volumes:
-      #- minio:/data
       - ./docker_files/minio:/tmp/minio
     entrypoint: sh
     command: -c "
@@ -39,10 +26,6 @@ services:
       cp -r /tmp/minio/data/* /data/.;
       mkdir /data/test.bucket;
       minio server /data --address ':9000' --console-address ':9001';"
-
-    networks:
-      app_net:
-        ipv4_address: 10.0.0.3
 
 volumes:
   app_bundle:

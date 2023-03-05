@@ -1,3 +1,5 @@
+require './src/models/aws_credential'
+
 module S3
   class Client
     def client
@@ -6,10 +8,7 @@ module S3
 
     def options
       options = {
-        credentials: Aws::Credentials.new(
-          Settings.aws.credential.access_key_id,
-          Settings.aws.credential.secret_access_key
-        ),
+        credentials: AwsCredential.credentials,
         region: Settings.aws.s3.region,
       }
 

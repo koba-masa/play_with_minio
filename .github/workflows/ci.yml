@@ -14,25 +14,25 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0.2
+          working-directory: ./ruby
           bundler-cache: true
 
       - name: Setup MinIO
         run: |
-          mkdir -p /tmp/data/.minio.sys
-          cp -rp ./docker_files/minio/data/* /tmp/data/.
-          cp -rp ./docker_files/minio/config /tmp/data/.minio.sys/.
-          docker run -d -p 9000:9000 --name minio \
+          mkdir -p /tmp/data/sample.bucket
+          docker run -d --name minio \
+                     -p 9000:9000 \
                      -e "MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}" \
                      -e "MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}" \
                      -v /tmp/data:/data \
                      minio/minio server /data
-#          aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://test.bucket
 
       - name: Run RSpec
+        working-directory: ./ruby
         run: bundle exec rspec

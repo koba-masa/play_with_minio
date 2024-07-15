@@ -56,6 +56,10 @@ GEM
       dry-initializer (~> 3.0)
       dry-schema (~> 1.8, >= 1.8.0)
     jmespath (1.4.0)
+    mini_portile2 (2.6.1)
+    nokogiri (1.12.5)
+      mini_portile2 (~> 2.6.1)
+      racc (~> 1.4)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     racc (1.5.1)
@@ -74,6 +78,7 @@ GEM
     rspec-support (3.10.3)
 
 PLATFORMS
+  aarch64-linux
   x86_64-linux
 
 DEPENDENCIES
@@ -83,4 +88,4 @@ DEPENDENCIES
   rspec
 
 BUNDLED WITH
-   2.2.31
+   2.5.15
